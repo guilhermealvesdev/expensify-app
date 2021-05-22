@@ -2,11 +2,11 @@
 
 const EditExpensePage = (props) => {
     //Pegar ID
-    console.log(props.match.params.id);
+    const id = props.match.params.id;
     
     return (
         <div>
-            <p>Edit</p>
+            <p>Edit {id}</p>
         </div>
     )
 }
