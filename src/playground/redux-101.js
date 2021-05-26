@@ -3,12 +3,15 @@
 const store = createStore((state = { count:0 }, action) => {
     switch (action.type) {
         case 'INCREMENT':
+            const incrementBy = typeof action.incrementBy === "number" ? action.incrementBy : 1
+            
             return {
-                count: state.count + 1
+                count: state.count + incrementBy
             };
         case 'DECREMENT':
+            const decrementBy = typeof action.decrementBy === "number" ? action.decrementBy : 1
             return {
-                count: state.count - 1
+                count: state.count - decrementBy
             }
         case 'RESET':
             return {
@@ -19,15 +22,18 @@ const store = createStore((state = { count:0 }, action) => {
     }
 });
 
-console.log(store.getState());
-
-
-//Incrementar
-store.dispatch({
-    type: "INCREMENT"
+//O Redux fica de olho e dispara o .log sempre que houver alguma mudança no estado.
+store.subscribe(() => {
+    console.log(store.getState());
 });
 
-//Decrementar
+//Incrementar +5
+store.dispatch({
+    type: "INCREMENT",
+    incrementBy: 5
+});
+
+//Incrementar +1 (valor padrão)
 store.dispatch({
     type: "INCREMENT"
 });
@@ -37,11 +43,13 @@ store.dispatch({
     type: "RESET"
 });
 
-//Decrementar
+//Decrementar -2
 store.dispatch({
-    type: "DECREMENT"
+    type: "DECREMENT",
+    decrementBy: 2
 });
 
-
-
-console.log(store.getState());
+//Decrementar -1 (valor padrão)
+store.dispatch({
+    type: "DECREMENT",
+});
