@@ -1,7 +1,27 @@
 ﻿import {createStore, combineReducers} from 'redux';
+import uuid from 'uuid';
 
 // ADD_EXPENSE
+const addExpense = ({descricao = "", nota = "", quantidade = 0, criadoEm = 0} = {}) => {
+    return {
+        type: 'ADD_EXPENSE',
+        expense: {
+            id: uuid(),
+            descricao,
+            nota,
+            quantidade,
+            criadoEm
+        }
+    }
+}
+
 // REMOVE_EXPENSE
+const removeExpense = ({id}) => {    
+    return {
+        type:'REMOVE_EXPENSE',
+        id
+    }
+}
 // EDIT_EXPENSE
 // SET_TEXT_FILTER
 // SORT_BY_DATE
@@ -16,6 +36,12 @@ const expensesReducerDefaultState = [];
 //Reducer das Expenses.
 const expensesReducer = (state = expensesReducerDefaultState, action) => {
     switch (action.type) {
+        case "ADD_EXPENSE":
+            return [...state, action.expense]
+        case "REMOVE_EXPENSE":
+            return state.filter((item) => {
+                return item.id !== action.id
+            });
         default: 
             return state;
     }
@@ -45,7 +71,18 @@ const store = createStore(
     })
 );
 
-console.log(store.getState());
+store.subscribe(() => {
+    console.log(store.getState());
+});
+
+const expenseOne = store.dispatch(addExpense({descricao: "Teste", quantidade: 35000 }));
+const expenseTwo = store.dispatch(addExpense({descricao: "Aluguel", quantidade: 922000 }));
+const expenseThree = store.dispatch(addExpense({descricao: "Carro", quantidade: 1457000 }));
+
+store.dispatch(removeExpense({id: expenseOne.expense.id}));
+store.dispatch(removeExpense({id: expenseThree.expense.id}));
+
+const expenseFour = store.dispatch(addExpense({descricao: "Presente", quantidade: 300 }));
 
 
 //Aqui criamos o esqueleto do que queremos.
