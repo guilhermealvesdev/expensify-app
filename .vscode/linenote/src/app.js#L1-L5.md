@@ -1,1 +1,0 @@
-Objeto com os dados do app.
