@@ -25,10 +25,6 @@ const expenseFour = store.dispatch(addExpense({descricao: "Conta de Telefone", q
 
 store.dispatch(setTextFilter("Conta"));
 
-setTimeout(() => {
-    store.dispatch(setTextFilter("Água"));
-}, 3000);
-
 const jsx = (
     <Provider store={store}>
         <AppRouter />
